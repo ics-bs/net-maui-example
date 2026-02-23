@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LundUniversity.MauiExample.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:LundUniversity.MauiExample.Models"
+    xmlns:vm="clr-namespace:LundUniversity.MauiExample.ViewModels"
+    x:DataType="vm:MainViewModel"
+    x:Name="MainPageRoot"
+    Title="{Binding PageTitle}">
+
+    <Grid
+        Padding="24"
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="16">
+
+        <Border
+            Padding="16"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+            Stroke="{StaticResource Gray300}"
+            StrokeShape="RoundRectangle 10">
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Text="Department Directory" />
+                <Label
+                    Text="Browse departments and open a detail view to inspect employees." />
+                <Label
+                    FontAttributes="Italic"
+                    Text="{Binding TotalsSummary}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <ActivityIndicator
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}" />
+
+        <RefreshView
+            Grid.Row="2"
+            Command="{Binding LoadDepartmentsCommand}"
+            IsRefreshing="{Binding IsBusy}">
+            <Grid RowDefinitions="Auto,*" RowSpacing="8">
+                <Label
+                    Text="{Binding ErrorMessage}"
+                    TextColor="Maroon"
+                    IsVisible="{Binding HasError}" />
+
+                <CollectionView
+                    Grid.Row="1"
+                    ItemsSource="{Binding Departments}"
+                    SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Text="No departments loaded yet." />
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Department">
+                            <Border
+                                Margin="0,0,0,10"
+                                Padding="12"
+                                Stroke="{StaticResource Gray300}"
+                                StrokeShape="RoundRectangle 8">
+                                <Grid
+                                    ColumnDefinitions="*,Auto"
+                                    RowDefinitions="Auto,Auto,Auto"
+                                    ColumnSpacing="12"
+                                    RowSpacing="4">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="18"
+                                        Text="{Binding DeptName}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Text="{Binding DeptBudgetDisplay}" />
+                                    <HorizontalStackLayout
+                                        Grid.Row="2"
+                                        Spacing="16">
+                                        <Label Text="{Binding EmployeeCountDisplay}" />
+                                        <Label Text="{Binding TotalSalaryDisplay}" />
+                                    </HorizontalStackLayout>
+                                    <Button
+                                        Grid.Column="1"
+                                        Grid.RowSpan="3"
+                                        Command="{Binding Source={x:Reference MainPageRoot}, Path=BindingContext.OpenDepartmentCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="Open" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </RefreshView>
+    </Grid>
+
+</ContentPage>

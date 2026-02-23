@@ -1,0 +1,47 @@
+# Build output
+**/bin/
+**/obj/
+artifacts/
+publish/
+TestResults/
+
+# .NET / NuGet
+*.nupkg
+*.snupkg
+*.user
+*.rsuser
+*.suo
+*.userprefs
+*.sln.docstates
+
+# Logs / caches
+*.log
+*.cache
+
+# IDE/editor folders
+.vs/
+.vscode/
+.idea/
+
+# MAUI / mobile packaging artifacts
+*.apk
+*.aab
+*.ap_
+*.ipa
+*.msix
+*.appx
+*.appxbundle
+
+# Signing / certificates
+*.keystore
+*.jks
+*.p12
+*.pfx
+
+# Android local machine config
+local.properties
+
+# OS files
+.DS_Store
+Thumbs.db
+*~

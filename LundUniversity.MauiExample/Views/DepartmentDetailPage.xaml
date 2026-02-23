@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LundUniversity.MauiExample.Views.DepartmentDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:LundUniversity.MauiExample.Models"
+    xmlns:vm="clr-namespace:LundUniversity.MauiExample.ViewModels"
+    x:DataType="vm:DepartmentDetailViewModel"
+    x:Name="DetailPageRoot"
+    Title="{Binding PageTitle}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding GoBackCommand}"
+            Text="Back" />
+        <ToolbarItem
+            Command="{Binding LoadDepartmentCommand}"
+            Text="Reload" />
+    </ContentPage.ToolbarItems>
+
+    <Grid
+        Padding="24"
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="14">
+
+        <Border
+            Padding="16"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+            Stroke="{StaticResource Gray300}"
+            StrokeShape="RoundRectangle 10">
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Text="{Binding DepartmentName}" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Text="{Binding DepartmentBudget}" />
+                <Label
+                    Text="{Binding StatusMessage}" />
+                <Label
+                    Text="{Binding ErrorMessage}"
+                    TextColor="Maroon"
+                    IsVisible="{Binding HasError}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <ActivityIndicator
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}" />
+
+        <CollectionView
+            Grid.Row="2"
+            ItemsSource="{Binding Employees}"
+            SelectionMode="None">
+
+            <CollectionView.EmptyView>
+                <Label
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Text="No employees found for this department." />
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Employee">
+                    <Border
+                        Margin="0,0,0,8"
+                        Padding="12"
+                        Stroke="{StaticResource Gray300}"
+                        StrokeShape="RoundRectangle 8">
+                        <Grid
+                            ColumnDefinitions="Auto,*,Auto,Auto"
+                            ColumnSpacing="12">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="{Binding EmpNo}"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding EmpNameDisplay}"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="2"
+                                Text="{Binding EmpSalaryDisplay}"
+                                VerticalOptions="Center" />
+                            <Button
+                                Grid.Column="3"
+                                Command="{Binding Source={x:Reference DetailPageRoot}, Path=BindingContext.EditEmployeeCommand}"
+                                CommandParameter="{Binding .}"
+                                Text="Edit" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>

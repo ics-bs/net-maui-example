@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('linux'))">
+    <!-- Prefer explicit env vars, then common Linux default path. -->
+    <AndroidSdkDirectory Condition="'$(AndroidSdkDirectory)' == '' and '$(ANDROID_SDK_ROOT)' != ''">$(ANDROID_SDK_ROOT)</AndroidSdkDirectory>
+    <AndroidSdkDirectory Condition="'$(AndroidSdkDirectory)' == '' and '$(ANDROID_HOME)' != ''">$(ANDROID_HOME)</AndroidSdkDirectory>
+    <AndroidSdkDirectory Condition="'$(AndroidSdkDirectory)' == '' and '$(HOME)' != ''">$(HOME)/Android/Sdk</AndroidSdkDirectory>
+
+    <!-- Ensure CLI builds can resolve a valid JDK when JAVA_HOME is set. -->
+    <JavaSdkDirectory Condition="'$(JavaSdkDirectory)' == '' and '$(JAVA_HOME)' != ''">$(JAVA_HOME)</JavaSdkDirectory>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LundUniversity.MauiExample.Views.EmployeeEditPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:LundUniversity.MauiExample.ViewModels"
+    x:DataType="vm:EmployeeEditViewModel"
+    Title="{Binding PageTitle}">
+
+    <Grid
+        Padding="24"
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="12">
+
+        <Border
+            Padding="16"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+            Stroke="{StaticResource Gray300}"
+            StrokeShape="RoundRectangle 10">
+            <VerticalStackLayout Spacing="6">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="22"
+                    Text="Employee Editor" />
+                <Label Text="Update name and salary, then save." />
+                <Label
+                    Text="{Binding ErrorMessage}"
+                    TextColor="Maroon"
+                    IsVisible="{Binding HasError}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <ActivityIndicator
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}" />
+
+        <Border
+            Grid.Row="2"
+            Padding="16"
+            Stroke="{StaticResource Gray300}"
+            StrokeShape="RoundRectangle 10">
+            <VerticalStackLayout Spacing="12">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Label
+                        FontAttributes="Bold"
+                        Text="Emp No:"
+                        VerticalOptions="Center" />
+                    <Label
+                        Grid.Column="1"
+                        Text="{Binding EmployeeNumber}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <Label Text="Name" />
+                <Entry
+                    ClearButtonVisibility="WhileEditing"
+                    Placeholder="Employee name"
+                    Text="{Binding EmployeeName}" />
+
+                <Label Text="Salary" />
+                <Entry
+                    Keyboard="Numeric"
+                    Placeholder="50000"
+                    Text="{Binding EmployeeSalary}" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Button
+                        Command="{Binding CancelCommand}"
+                        Text="Cancel" />
+                    <Button
+                        Grid.Column="1"
+                        Command="{Binding SaveEmployeeCommand}"
+                        Text="Save" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+
+</ContentPage>
